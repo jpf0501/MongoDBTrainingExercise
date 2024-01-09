@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MongoDBTrainingExercise.Models.ViewModels.StudentViewModel>;
+
+@{
+    ViewData["Title"] = "Students";
+}
+
+<div class="text-left">
+    <h2 class="display-4 my-4">List of Students</h2>
+</div>
+
+<table class="table table-condensed mt-4"
+    <thead>
+        <tr>
+            <th>Student Id</th>
+            <th>Student Name</th>
+            <th>Age</th>
+            <th>Address</th>
+        </tr>
+    </thead>
+        @foreach (var item in Model)
+        {
+                <tr>
+                    <td>
+                    @Html.DisplayFor(m => item.studentId)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(m => item.firstName) @Html.DisplayFor(m => item.lastName)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(m => item.age)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(m => item.address)
+                    </td>
+
+                </tr>
+        }
+    <tr>
+</table>

@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using MongoDBTrainingExercise.Services;
-using MongoDBTrainingExercise.Models;
 
 namespace MongoDBTrainingExercise.Controllers
 {
@@ -16,7 +15,8 @@ namespace MongoDBTrainingExercise.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var viewModel = _studentService.Get();
+            return View(viewModel);
         }
     }
 }

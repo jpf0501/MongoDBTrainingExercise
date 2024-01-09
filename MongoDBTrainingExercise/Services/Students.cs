@@ -1,8 +1,8 @@
 ﻿using MongoDBTrainingExercise.Models;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using MongoDB.Bson;
 using MongoDBTrainingExercise.Interface;
+using MongoDBTrainingExercise.Models.ViewModels;
 
 namespace MongoDBTrainingExercise.Services
 {
@@ -16,9 +16,21 @@ namespace MongoDBTrainingExercise.Services
             _studentCollection = database.GetCollection<Student>("students");
         }
 
-        public async Task<List<Student>> Get() 
+        public IEnumerable<StudentViewModel> Get() 
         {
-            return await _studentCollection.Find(new BsonDocument()).ToListAsync();
+            var filter = Builders<Student>.Sort.Ascending(x => x.studentId);
+            var result = _studentCollection.Aggregate().Sort(filter).ToList();
+            IEnumerable<StudentViewModel> viewModel = result.Select(s => new StudentViewModel
+                {
+                    Id = s.Id,
+                    studentId = s.studentId,
+                    firstName = s.firstName,
+                    lastName = s.lastName,
+                    age = s.age,
+                    address = s.address,
+                }
+            );
+            return viewModel;
         }
         public async Task Create(Student student)
         { 
