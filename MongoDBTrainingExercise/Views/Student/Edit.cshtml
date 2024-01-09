@@ -1,0 +1,35 @@
+﻿@model MongoDBTrainingExercise.Models.ViewModels.StudentViewModel;
+
+@{
+    ViewData["Title"] = "Edit Student";
+}
+
+<div class="text-left">
+    <h2 class="display-4 my-4">Edit Student Entry</h2>
+</div>
+
+<form method="post" asp-action="Edit" asp-controller="Student">
+    <div class="my-4">
+        <label for="FirstName" class="mb-2">First Name</label>
+        @Html.TextBoxFor(m => m.firstName, new { @class = "form-control w-50" })
+    </div>
+
+    <div class="my-4">
+        <label for="FirstName" class="mb-2">Last Name</label>
+        @Html.TextBoxFor(m => m.lastName, new { @class = "form-control w-50" })
+    </div>
+
+    <div class="my-4">
+        <label for="FirstName" class="mb-2">Age</label>
+        @Html.TextBoxFor(m => m.age, new { @class = "form-control w-50" })
+    </div>
+
+    <div class="my-4">
+        <label for="FirstName" class="mb-2">Address</label>
+        @Html.TextBoxFor(m => m.address, new { @class = "form-control w-50" })
+    </div>
+
+
+
+    <button type="submit" class="btn btn-success">Save</button>
+</form>

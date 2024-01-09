@@ -7,8 +7,10 @@ namespace MongoDBTrainingExercise.Interface
     public interface IStudentService
     {
         IEnumerable<StudentViewModel> Get();
-        Task Create(Student student);
-        Task Update(Student student);
-        Task Delete(string id);
+
+        StudentViewModel GetById(int id);
+        bool Create(StudentViewModel viewModel);
+        bool Update(StudentViewModel viewModel);
+        bool Delete(StudentViewModel viewModel);
     }
 }
