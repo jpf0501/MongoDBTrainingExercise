@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace MongoDBTrainingExercise.Models
 {
-    public class Student
+    public class Student : BaseModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]

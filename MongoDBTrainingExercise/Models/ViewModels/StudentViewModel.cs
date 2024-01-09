@@ -1,6 +1,6 @@
 ﻿namespace MongoDBTrainingExercise.Models.ViewModels
 {
-    public class StudentViewModel
+    public class StudentViewModel : BaseViewModel
     {
         public string? Id { get; set; }
 

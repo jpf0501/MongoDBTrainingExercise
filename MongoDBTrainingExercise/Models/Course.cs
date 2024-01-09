@@ -3,7 +3,7 @@ using MongoDB.Bson;
 
 namespace MongoDBTrainingExercise.Models
 {
-    public class Course
+    public class Course : BaseModel
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
