@@ -83,11 +83,11 @@ namespace MongoDBTrainingExercise.Controllers
 
             if (student)
             {
-                TempData["PromptCreate"] = "Successfully updated!";
+                TempData["PromptCreate"] = "Successfully deleted!";
             }
             else
             {
-                TempData["PromptCreate"] = "Failed to update!";
+                TempData["PromptCreate"] = "Failed to deleted!";
             }
 
             //return View();
