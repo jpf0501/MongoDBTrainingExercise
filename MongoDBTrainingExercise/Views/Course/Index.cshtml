@@ -1,24 +1,42 @@
 ﻿@model IEnumerable<MongoDBTrainingExercise.Models.ViewModels.CourseViewModel>;
 
 @{
-    ViewData["Title"] = "Students";
+    ViewData["Title"] = "Courses";
+    ViewBag.Message = TempData["PromptCreate"];
 }
 
 <div class="text-left">
     <h2 class="display-4 my-4">List of Courses</h2>
 </div>
 
-<table class="table table-condensed mt-4"
+<div class="my-4">
+    <a href="@Url.Action("Create", "Course")" class="btn btn-primary" role="button">Create</a>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
+}
+
+<table class="table table-condensed mt-4">
     <thead>
         <tr>
+            <th></th>
+            <th></th>
             <th>Course Id</th>
             <th>Course Name</th>
-            <th>Category</th>
+            <th>Course Category</th>
         </tr>
     </thead>
     @foreach (var item in Model)
     {
                     <tr>
+                            <td>
+                                <a href="@Url.Action("Edit", "Course", new { id = item.courseId })" class="btn btn-success">Edit</a>
+                            </td>
+                            <td>
+                                <a href="@Url.Action("Delete", "Course", new { id = item.courseId })" class="btn btn-danger">Delete</a>
+                            </td>
                         <td>
                 @Html.DisplayFor(m => item.courseId)
                         </td>
@@ -26,7 +44,7 @@
                 @Html.DisplayFor(m => item.name)
                         </td>
                         <td>
-                @Html.DisplayFor(m => item.category)
+                @Html.DisplayFor(m => item.categoryName)
                         </td>
                     </tr>
     }
