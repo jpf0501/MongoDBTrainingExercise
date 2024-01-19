@@ -48,6 +48,24 @@ namespace MongoDBTrainingExercise.Services
             return viewModel;
         }
 
+        public IEnumerable<TeacherViewModel> GetAllInactive()
+        {
+            var filter = Builders<Teacher>.Sort.Ascending(x => x.teacherId);
+            var matchStage = Builders<Teacher>.Filter.Eq(x => x.isActive, false);
+            var result = _teacherCollection.Aggregate().Match(matchStage).Sort(filter).ToList();
+            IEnumerable<TeacherViewModel> viewModel = result.Select(s => new TeacherViewModel
+            {
+                Id = s.Id,
+                teacherId = s.teacherId,
+                firstName = s.firstName,
+                lastName = s.lastName,
+            }
+            );
+            return viewModel;
+        }
+
+
+
         public TeacherViewModel GetById(int id)
         {
             var viewModel = new TeacherViewModel();
@@ -60,6 +78,7 @@ namespace MongoDBTrainingExercise.Services
                 viewModel.firstName = result.firstName;
                 viewModel.lastName = result.lastName;
                 viewModel.isActive = result.isActive;
+                viewModel.teacherId = result.teacherId;
             }
             catch (Exception e)
             {
@@ -123,6 +142,25 @@ namespace MongoDBTrainingExercise.Services
                 var filter = Builders<Teacher>.Filter.Eq(x => x.teacherId, Convert.ToInt32(viewModel.Id));
                 var updateSet = Builders<Teacher>.Update
                     .Set(x => x.isActive, false);
+
+                _teacherCollection.UpdateOne(filter, updateSet);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public bool Restore(TeacherViewModel viewModel)
+        {
+            try
+            {
+                var filter = Builders<Teacher>.Filter.Eq(x => x.teacherId, viewModel.teacherId);
+                var updateSet = Builders<Teacher>.Update
+                    .Set(x => x.isActive, true);
 
                 _teacherCollection.UpdateOne(filter, updateSet);
 

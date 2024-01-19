@@ -34,6 +34,21 @@ namespace MongoDBTrainingExercise.Services
             return viewModel;
         }
 
+        public IEnumerable<CategoryViewModel> GetAllInactive()
+        {
+            var filter = Builders<Category>.Sort.Ascending(x => x.categoryId);
+            var matchStage = Builders<Category>.Filter.Eq(x => x.isActive, false);
+            var result = _categoryCollection.Aggregate().Match(matchStage).Sort(filter).ToList();
+            IEnumerable<CategoryViewModel> viewModel = result.Select(s => new CategoryViewModel
+            {
+                Id = s.Id,
+                categoryId = s.categoryId,
+                categoryName = s.categoryName,
+            }
+            );
+            return viewModel;
+        }
+
         public IEnumerable<CategoryViewModel> GetAll()
         {
             var filter = Builders<Category>.Sort.Ascending(x => x.categoryId);
@@ -130,6 +145,25 @@ namespace MongoDBTrainingExercise.Services
                 var filter = Builders<Category>.Filter.Eq(x => x.categoryId, Convert.ToInt32(viewModel.Id));
                 var updateSet = Builders<Category>.Update
                     .Set(x => x.isActive, false);
+
+                _categoryCollection.UpdateOne(filter, updateSet);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public bool Restore(CategoryViewModel viewModel)
+        {
+            try
+            {
+                var filter = Builders<Category>.Filter.Eq(x => x.categoryId, viewModel.categoryId);
+                var updateSet = Builders<Category>.Update
+                    .Set(x => x.isActive, true);
 
                 _categoryCollection.UpdateOne(filter, updateSet);
 

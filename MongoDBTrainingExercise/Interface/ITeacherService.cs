@@ -8,8 +8,10 @@ namespace MongoDBTrainingExercise.Interface
     {
         IEnumerable<TeacherViewModel> Get();
         IEnumerable<TeacherViewModel> GetAll();
+        IEnumerable<TeacherViewModel> GetAllInactive();
         bool Create(TeacherViewModel viewModel);
         bool Update(TeacherViewModel viewModel);
         bool Delete(TeacherViewModel viewModel);
+        bool Restore(TeacherViewModel viewModel);
     }
 }

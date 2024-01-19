@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using MongoDBTrainingExercise.Interface;
 using MongoDBTrainingExercise.Models.ViewModels;
 using MongoDBTrainingExercise.Services;
 
@@ -88,6 +89,32 @@ namespace MongoDBTrainingExercise.Controllers
             else
             {
                 TempData["PromptCreate"] = "Failed to deleted!";
+            }
+
+            //return View();
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Restore()
+        {
+            var viewModel = _categoryService.GetAllInactive();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Restore(int id)
+        {
+            var viewModel = _categoryService.GetById(id);
+            var student = _categoryService.Restore(viewModel);
+
+            if (student)
+            {
+                TempData["PromptCreate"] = "Successfully restored!";
+            }
+            else
+            {
+                TempData["PromptCreate"] = "Failed to restore!";
             }
 
             //return View();

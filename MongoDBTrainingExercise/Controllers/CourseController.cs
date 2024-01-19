@@ -98,5 +98,31 @@ namespace MongoDBTrainingExercise.Controllers
             //return View();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult Restore()
+        {
+            var viewModel = _courseService.GetAllInactive();
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Restore(int id)
+        {
+            var viewModel = _courseService.GetById(id);
+            var student = _courseService.Restore(viewModel);
+
+            if (student)
+            {
+                TempData["PromptCreate"] = "Successfully restored!";
+            }
+            else
+            {
+                TempData["PromptCreate"] = "Failed to restore!";
+            }
+
+            //return View();
+            return RedirectToAction("Index");
+        }
     }
 }

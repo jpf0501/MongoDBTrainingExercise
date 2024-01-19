@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using MongoDBTrainingExercise.Interface;
 using MongoDBTrainingExercise.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using MongoDBTrainingExercise.Controllers;
 
 namespace MongoDBTrainingExercise.Services
 {
@@ -24,6 +25,23 @@ namespace MongoDBTrainingExercise.Services
         {
             var filter = Builders<Course>.Sort.Ascending(x => x.courseId);
             var matchStage = Builders<Course>.Filter.Eq(x => x.isActive, true);
+            var result = _courseCollection.Aggregate().Match(matchStage).Sort(filter).ToList();
+            IEnumerable<CourseViewModel> viewModel = result.Select(s => new CourseViewModel
+            {
+                Id = s.Id,
+                courseId = s.courseId,
+                name = s.name,
+                categoryId = s.categoryId,
+                categoryName = s.categoryId != 0 ? _categoryService.GetCategoryNameById(s.categoryId) : ""
+            }
+            );
+            return viewModel;
+        }
+
+        public IEnumerable<CourseViewModel> GetAllInactive()
+        {
+            var filter = Builders<Course>.Sort.Ascending(x => x.courseId);
+            var matchStage = Builders<Course>.Filter.Eq(x => x.isActive, false);
             var result = _courseCollection.Aggregate().Match(matchStage).Sort(filter).ToList();
             IEnumerable<CourseViewModel> viewModel = result.Select(s => new CourseViewModel
             {
@@ -129,6 +147,25 @@ namespace MongoDBTrainingExercise.Services
                 var filter = Builders<Course>.Filter.Eq(x => x.courseId, Convert.ToInt32(viewModel.Id));
                 var updateSet = Builders<Course>.Update
                     .Set(x => x.isActive, false);
+
+                _courseCollection.UpdateOne(filter, updateSet);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        [HttpPost]
+        public bool Restore(CourseViewModel viewModel)
+        {
+            try
+            {
+                var filter = Builders<Course>.Filter.Eq(x => x.courseId, viewModel.courseId);
+                var updateSet = Builders<Course>.Update
+                    .Set(x => x.isActive, true);
 
                 _courseCollection.UpdateOne(filter, updateSet);
 

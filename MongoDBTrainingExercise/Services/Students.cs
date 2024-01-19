@@ -54,6 +54,24 @@ namespace MongoDBTrainingExercise.Services
             return viewModel;
         }
 
+        public IEnumerable<StudentViewModel> GetAllInactive()
+        {
+            var filter = Builders<Student>.Sort.Ascending(x => x.studentId);
+            var matchStage = Builders<Student>.Filter.Eq(x => x.isActive, false);
+            var result = _studentCollection.Aggregate().Match(matchStage).Sort(filter).ToList();
+            IEnumerable<StudentViewModel> viewModel = result.Select(s => new StudentViewModel
+            {
+                Id = s.Id,
+                studentId = s.studentId,
+                firstName = s.firstName,
+                lastName = s.lastName,
+                age = s.age,
+                address = s.address,
+            }
+            );
+            return viewModel;
+        }
+
         public StudentViewModel GetById(int id)
         {
             var viewModel = new StudentViewModel();
@@ -137,6 +155,24 @@ namespace MongoDBTrainingExercise.Services
                 var filter = Builders<Student>.Filter.Eq(x => x.studentId, Convert.ToInt32(viewModel.Id));
                 var updateSet = Builders<Student>.Update
                     .Set(x => x.isActive, false);
+
+                _studentCollection.UpdateOne(filter, updateSet);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        [HttpPost]
+        public bool Restore(StudentViewModel viewModel)
+        {
+            try
+            {
+                var filter = Builders<Student>.Filter.Eq(x => x.studentId, viewModel.studentId);
+                var updateSet = Builders<Student>.Update
+                    .Set(x => x.isActive, true);
 
                 _studentCollection.UpdateOne(filter, updateSet);
 
