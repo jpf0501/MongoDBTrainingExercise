@@ -1,0 +1,48 @@
+﻿@model IEnumerable<MongoDBTrainingExercise.Models.ViewModels.CategoryViewModel>;
+
+@{
+    ViewData["Title"] = "Course Categories";
+    ViewBag.Message = TempData["PromptCreate"];
+}
+
+<div class="text-left">
+    <h2 class="display-4 my-4">Course Categories</h2>
+</div>
+
+<div class="my-4">
+    <a href="@Url.Action("Create", "Category")" class="btn btn-primary" role="button">Create</a>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
+}
+
+<table class="table table-condensed mt-4">
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th>Category Id</th>
+            <th>Category Name</th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <a href="@Url.Action("Edit", "Category", new { id = item.categoryId })" class="btn btn-success">Edit</a>
+            </td>
+            <td>
+                <a href="@Url.Action("Delete", "Category", new { id = item.categoryId })" class="btn btn-danger">Delete</a>
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.categoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(m => item.categoryName)
+            </td>
+        </tr>
+    }
+    <tr>
+</table>

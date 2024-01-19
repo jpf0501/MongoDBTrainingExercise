@@ -56,98 +56,89 @@ namespace MongoDBTrainingExercise.Services
             return result;
         }
 
-        //public StudentViewModel GetById(int id)
-        //{
-        //    var viewModel = new StudentViewModel();
-        //    var filter = Builders<Student>.Filter.Eq(x => x.studentId, id);
-        //    var result = _studentCollection.Find(filter).FirstOrDefault();
+        public CategoryViewModel GetById(int id)
+        {
+            var viewModel = new CategoryViewModel();
+            var filter = Builders<Category>.Filter.Eq(x => x.categoryId, id);
+            var result = _categoryCollection.Find(filter).FirstOrDefault();
 
-        //    try
-        //    {
-        //        viewModel.Id = result.Id;
-        //        viewModel.firstName = result.firstName;
-        //        viewModel.lastName = result.lastName;
-        //        viewModel.age = result.age;
-        //        viewModel.address = result.address;
-        //        viewModel.studentId = result.studentId;
-        //        viewModel.isActive = result.isActive;
-        //    }
-        //    catch(Exception e)
-        //    {
-        //        Console.WriteLine(e.Message);
-        //    }
+            try
+            {
+                viewModel.Id = result.Id;
+                viewModel.categoryId = result.categoryId;
+                viewModel.categoryName = result.categoryName;
+                viewModel.isActive = result.isActive;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
-        //    return viewModel;
-        //}
+            return viewModel;
+        }
 
-        //public bool Create(StudentViewModel viewModel)
-        //{
-        //    try
-        //    {
-        //        var previousId = GetAll().OrderBy(x => x.studentId).LastOrDefault() != null ? GetAll().OrderBy(x => x.studentId).LastOrDefault().studentId : 0;
+        public bool Create(CategoryViewModel viewModel)
+        {
+            try
+            {
+                var previousId = GetAll().OrderBy(x => x.categoryId).LastOrDefault() != null ? GetAll().OrderBy(x => x.categoryId).LastOrDefault().categoryId : 0;
 
-        //        var newDoc = new Student
-        //        {
-        //            firstName = viewModel.firstName,
-        //            lastName = viewModel.lastName,
-        //            age = viewModel.age,
-        //            address = viewModel.address,
-        //            studentId = previousId + 1,
-        //            isActive = true,
+                var newDoc = new Category
+                {
+                    categoryName = viewModel.categoryName,
+                    categoryId = previousId + 1,
+                    isActive = true,
 
-        //        };
+                };
 
-        //        _studentCollection.InsertOne(newDoc);
+                _categoryCollection.InsertOne(newDoc);
 
-        //        return true;
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        return false;
-        //    };
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            };
 
-        //}
+        }
 
-        //[HttpPost]
-        //public bool Update(StudentViewModel viewModel) 
-        //{
-        //    try
-        //    {
-        //        var filter = Builders<Student>.Filter.Eq(x => x.studentId, Convert.ToInt32(viewModel.Id));
-        //        var updateSet = Builders<Student>.Update
-        //            .Set(x => x.firstName, viewModel.firstName)
-        //            .Set(x => x.lastName, viewModel.lastName)
-        //            .Set(x => x.age, viewModel.age)
-        //            .Set(x => x.address, viewModel.address);
+        [HttpPost]
+        public bool Update(CategoryViewModel viewModel)
+        {
+            try
+            {
+                var filter = Builders<Category>.Filter.Eq(x => x.categoryId, Convert.ToInt32(viewModel.Id));
+                var updateSet = Builders<Category>.Update
+                    .Set(x => x.categoryName, viewModel.categoryName);
 
-        //        _studentCollection.UpdateOne(filter, updateSet);
+                _categoryCollection.UpdateOne(filter, updateSet);
 
-        //        return true;
-        //    }
-        //    catch(Exception e)
-        //    {
-        //        return false;
-        //    }
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
 
 
-        //}
-        //[HttpPost]
-        //public bool Delete(StudentViewModel viewModel)
-        //{
-        //    try
-        //    {
-        //        var filter = Builders<Student>.Filter.Eq(x => x.studentId, Convert.ToInt32(viewModel.Id));
-        //        var updateSet = Builders<Student>.Update
-        //            .Set(x => x.isActive, false);
+        }
+        [HttpPost]
+        public bool Delete(CategoryViewModel viewModel)
+        {
+            try
+            {
+                var filter = Builders<Category>.Filter.Eq(x => x.categoryId, Convert.ToInt32(viewModel.Id));
+                var updateSet = Builders<Category>.Update
+                    .Set(x => x.isActive, false);
 
-        //        _studentCollection.UpdateOne(filter, updateSet);
+                _categoryCollection.UpdateOne(filter, updateSet);
 
-        //        return true;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return false;
-        //    }
-        //}
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
     }
 }
