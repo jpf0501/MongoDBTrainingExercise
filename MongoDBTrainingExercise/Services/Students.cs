@@ -36,6 +36,24 @@ namespace MongoDBTrainingExercise.Services
             );
             return viewModel;
         }
+
+        public IEnumerable<StudentViewModel> GetAll()
+        {
+            var filter = Builders<Student>.Sort.Ascending(x => x.studentId);
+            var result = _studentCollection.Aggregate().Sort(filter).ToList();
+            IEnumerable<StudentViewModel> viewModel = result.Select(s => new StudentViewModel
+            {
+                Id = s.Id,
+                studentId = s.studentId,
+                firstName = s.firstName,
+                lastName = s.lastName,
+                age = s.age,
+                address = s.address,
+            }
+            );
+            return viewModel;
+        }
+
         public StudentViewModel GetById(int id)
         {
             var viewModel = new StudentViewModel();
@@ -64,7 +82,7 @@ namespace MongoDBTrainingExercise.Services
         {
             try
             {
-                var previousId = Get().OrderBy(x => x.studentId).LastOrDefault() != null ? Get().OrderBy(x => x.studentId).LastOrDefault().studentId : 0;
+                var previousId = GetAll().OrderBy(x => x.studentId).LastOrDefault() != null ? GetAll().OrderBy(x => x.studentId).LastOrDefault().studentId : 0;
 
                 var newDoc = new Student
                 {

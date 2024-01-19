@@ -33,6 +33,21 @@ namespace MongoDBTrainingExercise.Services
             return viewModel;
         }
 
+        public IEnumerable<TeacherViewModel> GetAll()
+        {
+            var filter = Builders<Teacher>.Sort.Ascending(x => x.teacherId);
+            var result = _teacherCollection.Aggregate().Sort(filter).ToList();
+            IEnumerable<TeacherViewModel> viewModel = result.Select(s => new TeacherViewModel
+            {
+                Id = s.Id,
+                teacherId = s.teacherId,
+                firstName = s.firstName,
+                lastName = s.lastName,
+            }
+            );
+            return viewModel;
+        }
+
         public TeacherViewModel GetById(int id)
         {
             var viewModel = new TeacherViewModel();
@@ -58,7 +73,7 @@ namespace MongoDBTrainingExercise.Services
         {
             try
             {
-                var previousId = Get().OrderBy(x => x.teacherId).LastOrDefault() != null ? Get().OrderBy(x => x.teacherId).LastOrDefault().teacherId : 0;
+                var previousId = GetAll().OrderBy(x => x.teacherId).LastOrDefault() != null ? GetAll().OrderBy(x => x.teacherId).LastOrDefault().teacherId : 0;
 
                 var newDoc = new Teacher
                 {
