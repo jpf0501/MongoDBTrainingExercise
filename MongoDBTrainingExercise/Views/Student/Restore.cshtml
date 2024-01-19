@@ -1,0 +1,50 @@
+﻿@model IEnumerable<MongoDBTrainingExercise.Models.ViewModels.StudentViewModel>;
+
+@{
+    ViewData["Title"] = "Restore Students";
+}
+
+<div class="text-left">
+    <h2 class="display-4 my-4">Restore Student</h2>
+</div>
+
+<div class="my-4">
+    <a href="@Url.Action("Index", "Student")" class="btn btn-primary" role="button">Go Back</a>
+</div>
+
+<table class="table table-condensed mt-4">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Student Id</th>
+            <th>Student Name</th>
+            <th>Age</th>
+            <th>Address</th>
+        </tr>
+    </thead>
+        @foreach (var item in Model)
+        {
+                <tr>
+                    <td>
+                        @using (Html.BeginForm("Restore", "Student"))
+                        {
+                            <button class="btn btn-warning" name="id" value="@item.studentId" type="submit">Restore</button>
+                        }
+                    </td>
+                    <td>
+                    @Html.DisplayFor(m => item.studentId)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(m => item.firstName) @Html.DisplayFor(m => item.lastName)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(m => item.age)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(m => item.address)
+                    </td>
+
+                </tr>
+        }
+    <tr>
+</table>

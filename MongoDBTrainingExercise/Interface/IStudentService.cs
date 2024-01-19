@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MongoDBTrainingExercise.Models;
-using MongoDBTrainingExercise.Services;
+﻿using MongoDBTrainingExercise.Models;
+using MongoDBTrainingExercise.Models.ViewModels;
 
 
 namespace MongoDBTrainingExercise.Interface
 {
     public interface IStudentService
     {
-        Task<List<Student>> Get();
-        Task Create(Student student);
-        Task Update(Student student);
-        Task Delete(string id);
+        IEnumerable<StudentViewModel> Get();
+        IEnumerable<StudentViewModel> GetAll();
+        IEnumerable<StudentViewModel> GetAllInactive();
+
+        StudentViewModel GetById(int id);
+        bool Create(StudentViewModel viewModel);
+        bool Update(StudentViewModel viewModel);
+        bool Delete(StudentViewModel viewModel);
+        bool Restore(StudentViewModel viewModel);
     }
 }

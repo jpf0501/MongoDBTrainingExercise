@@ -1,22 +1,23 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using MongoDBTrainingExercise.Interface;
 using MongoDBTrainingExercise.Models.ViewModels;
 using MongoDBTrainingExercise.Services;
 
 namespace MongoDBTrainingExercise.Controllers
 {
-    public class StudentController : Controller
+    public class CategoryController : Controller
     {
-        private readonly Students _studentService;
+        private readonly Categories _categoryService;
 
-        public StudentController(Students studentService)
+        public CategoryController(Categories categoryService)
         {
-            _studentService = studentService;
+            _categoryService = categoryService;
         }
 
         public IActionResult Index()
         {
-            var viewModel = _studentService.Get();
+            var viewModel = _categoryService.Get();
             return View(viewModel);
         }
 
@@ -27,11 +28,11 @@ namespace MongoDBTrainingExercise.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(StudentViewModel viewModel)
+        public IActionResult Create(CategoryViewModel viewModel)
         {
-            var student = _studentService.Create(viewModel);
+            var course = _categoryService.Create(viewModel);
 
-            if(student)
+            if(course)
             {
                 TempData["PromptCreate"] = "Successfully created!";
             }
@@ -47,16 +48,16 @@ namespace MongoDBTrainingExercise.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var viewModel = _studentService.GetById(id);
+            var viewModel = _categoryService.GetById(id);
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit(StudentViewModel viewModel)
+        public IActionResult Edit(CategoryViewModel viewModel)
         {
-            var student = _studentService.Update(viewModel);
+            var course = _categoryService.Update(viewModel);
 
-            if (student)
+            if (course)
             {
                 TempData["PromptCreate"] = "Successfully updated!";
             }
@@ -72,16 +73,16 @@ namespace MongoDBTrainingExercise.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var viewModel = _studentService.GetById(id);
+            var viewModel = _categoryService.GetById(id);
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Delete(StudentViewModel viewModel)
+        public IActionResult Delete(CategoryViewModel viewModel)
         {
-            var student = _studentService.Delete(viewModel);
+            var course = _categoryService.Delete(viewModel);
 
-            if (student)
+            if (course)
             {
                 TempData["PromptCreate"] = "Successfully deleted!";
             }
@@ -97,15 +98,15 @@ namespace MongoDBTrainingExercise.Controllers
         [HttpGet]
         public IActionResult Restore()
         {
-            var viewModel = _studentService.GetAllInactive();
+            var viewModel = _categoryService.GetAllInactive();
             return View(viewModel);
         }
 
         [HttpPost]
         public IActionResult Restore(int id)
         {
-            var viewModel = _studentService.GetById(id);
-            var student = _studentService.Restore(viewModel);
+            var viewModel = _categoryService.GetById(id);
+            var student = _categoryService.Restore(viewModel);
 
             if (student)
             {

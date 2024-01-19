@@ -1,0 +1,19 @@
+﻿@model MongoDBTrainingExercise.Models.ViewModels.CategoryViewModel;
+
+@{
+    ViewData["Title"] = "Delete Category";
+}
+
+<div class="text-left">
+    <h2 class="display-4 my-4">Delete Category</h2>
+</div>
+
+    <p>Would you like to delete this category?</p>
+<div class="d-flex">
+        @using (Html.BeginForm("Delete", "Category"))
+        {
+            <button class="btn btn-success">Delete</button>
+        }
+        <a href="@Url.Action("Index", "Category")" class="btn btn-primary mx-2">Go Back</a>
+    </div>
+    

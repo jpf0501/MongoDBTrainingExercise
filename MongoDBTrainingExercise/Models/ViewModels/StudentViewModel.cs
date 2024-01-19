@@ -1,13 +1,7 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System.Text.Json.Serialization;
-
-namespace MongoDBTrainingExercise.Models
+﻿namespace MongoDBTrainingExercise.Models.ViewModels
 {
-    public class Student : BaseModel
+    public class StudentViewModel : BaseViewModel
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string? Id { get; set; }
 
         public int studentId { get; set; }

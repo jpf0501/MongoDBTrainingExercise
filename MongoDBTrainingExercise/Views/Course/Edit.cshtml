@@ -1,0 +1,23 @@
+﻿@model MongoDBTrainingExercise.Models.ViewModels.CourseViewModel;
+
+@{
+    ViewData["Title"] = "Update Course";
+}
+
+<div class="text-left">
+    <h2 class="display-4 my-4">Update Course Entry</h2>
+</div>
+
+<form method="post" asp-action="Edit" asp-controller="Course">
+    <div class="my-4">
+        <label for="FirstName" class="mb-2">Course Name</label>
+        @Html.TextBoxFor(m => m.name, new { @class = "form-control w-50" })
+    </div>
+
+    <div class="my-4">
+        <label for="LastName" class="mb-2">Course Category</label>
+        @Html.DropDownListFor(m => m.categoryId, new SelectList(Model.categoryList, "categoryId", "categoryName"), new { @class = "form-control w-50"})
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+</form>

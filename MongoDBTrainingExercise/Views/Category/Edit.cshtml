@@ -1,0 +1,18 @@
+﻿@model MongoDBTrainingExercise.Models.ViewModels.CategoryViewModel;
+
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+<div class="text-left">
+    <h2 class="display-4 my-4">Edit Category</h2>
+</div>
+
+<form method="post" asp-action="Edit" asp-controller="Category">
+    <div class="my-4">
+        <label for="FirstName" class="mb-2">Category Name</label>
+        @Html.TextBoxFor(m => m.categoryName, new { @class = "form-control w-50" })
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+</form>

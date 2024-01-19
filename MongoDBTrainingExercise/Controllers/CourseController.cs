@@ -1,37 +1,41 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using MongoDBTrainingExercise.Interface;
+using MongoDBTrainingExercise.Models;
 using MongoDBTrainingExercise.Models.ViewModels;
 using MongoDBTrainingExercise.Services;
 
 namespace MongoDBTrainingExercise.Controllers
 {
-    public class StudentController : Controller
+    public class CourseController : Controller
     {
-        private readonly Students _studentService;
+        private readonly Courses _courseService;
+        private readonly Categories _categoryService;
 
-        public StudentController(Students studentService)
+        public CourseController(Courses courseService, Categories categoryService)
         {
-            _studentService = studentService;
+            _courseService = courseService;
+            _categoryService = categoryService;
         }
-
         public IActionResult Index()
         {
-            var viewModel = _studentService.Get();
+            var viewModel = _courseService.Get();
             return View(viewModel);
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var viewModel = new CourseViewModel();
+            viewModel.categoryList = _categoryService.GetAll();
+            return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Create(StudentViewModel viewModel)
+        public IActionResult Create(CourseViewModel viewModel)
         {
-            var student = _studentService.Create(viewModel);
+            var course = _courseService.Create(viewModel);
 
-            if(student)
+            if (course)
             {
                 TempData["PromptCreate"] = "Successfully created!";
             }
@@ -47,16 +51,17 @@ namespace MongoDBTrainingExercise.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var viewModel = _studentService.GetById(id);
+            var viewModel = _courseService.GetById(id);
+            viewModel.categoryList = _categoryService.GetAll();
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Edit(StudentViewModel viewModel)
+        public IActionResult Edit(CourseViewModel viewModel)
         {
-            var student = _studentService.Update(viewModel);
+            var course = _courseService.Update(viewModel);
 
-            if (student)
+            if (course)
             {
                 TempData["PromptCreate"] = "Successfully updated!";
             }
@@ -72,22 +77,22 @@ namespace MongoDBTrainingExercise.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var viewModel = _studentService.GetById(id);
+            var viewModel = _courseService.GetById(id);
             return View(viewModel);
         }
 
         [HttpPost]
-        public IActionResult Delete(StudentViewModel viewModel)
+        public IActionResult Delete(CourseViewModel viewModel)
         {
-            var student = _studentService.Delete(viewModel);
+            var course = _courseService.Delete(viewModel);
 
-            if (student)
+            if (course)
             {
                 TempData["PromptCreate"] = "Successfully deleted!";
             }
             else
             {
-                TempData["PromptCreate"] = "Failed to deleted!";
+                TempData["PromptCreate"] = "Failed to delete!";
             }
 
             //return View();
@@ -97,15 +102,15 @@ namespace MongoDBTrainingExercise.Controllers
         [HttpGet]
         public IActionResult Restore()
         {
-            var viewModel = _studentService.GetAllInactive();
+            var viewModel = _courseService.GetAllInactive();
             return View(viewModel);
         }
 
         [HttpPost]
         public IActionResult Restore(int id)
         {
-            var viewModel = _studentService.GetById(id);
-            var student = _studentService.Restore(viewModel);
+            var viewModel = _courseService.GetById(id);
+            var student = _courseService.Restore(viewModel);
 
             if (student)
             {

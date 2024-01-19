@@ -1,0 +1,57 @@
+﻿@model IEnumerable<MongoDBTrainingExercise.Models.ViewModels.StudentViewModel>;
+
+@{
+    ViewData["Title"] = "Students";
+    ViewBag.Message = TempData["PromptCreate"];
+}
+
+<div class="text-left">
+    <h2 class="display-4 my-4">List of Students</h2>
+</div>
+
+<div class="my-4">
+    <a href="@Url.Action("Create", "Student")" class="btn btn-primary" role="button">Create</a>
+    <a href="@Url.Action("Restore", "Student")" class="btn btn-warning" role="button">Restore</a>
+</div>
+
+@if(ViewBag.Message != null){
+    <p>@ViewBag.Message</p>
+}
+
+<table class="table table-condensed mt-4">
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th>Student Id</th>
+            <th>Student Name</th>
+            <th>Age</th>
+            <th>Address</th>
+        </tr>
+    </thead>
+        @foreach (var item in Model)
+        {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("Edit", "Student", new { id = item.studentId })" class="btn btn-success">Edit</a>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Delete", "Student", new { id = item.studentId })" class="btn btn-danger">Delete</a>
+                    </td>
+                    <td>
+                    @Html.DisplayFor(m => item.studentId)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(m => item.firstName) @Html.DisplayFor(m => item.lastName)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(m => item.age)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(m => item.address)
+                    </td>
+
+                </tr>
+        }
+    <tr>
+</table>

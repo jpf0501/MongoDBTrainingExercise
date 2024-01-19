@@ -1,0 +1,19 @@
+﻿@model MongoDBTrainingExercise.Models.ViewModels.StudentViewModel;
+
+@{
+    ViewData["Title"] = "Delete Student";
+}
+
+<div class="text-left">
+    <h2 class="display-4 my-4">Delete Student Entry</h2>
+</div>
+
+    <p>Would you like to delete this entry?</p>
+<div class="d-flex">
+        @using (Html.BeginForm("Delete", "Student"))
+        {
+            <button class="btn btn-success">Delete</button>
+        }
+        <a href="@Url.Action("Index", "Student")" class="btn btn-primary mx-2">Go Back</a>
+    </div>
+    
