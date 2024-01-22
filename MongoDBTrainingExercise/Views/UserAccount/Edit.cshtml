@@ -1,0 +1,68 @@
+﻿@model MongoDBTrainingExercise.Models.ViewModels.UserAccountViewModel;
+
+@{
+    ViewData["Title"] = "Edit Account";
+    ViewBag.Message = TempData["PromptInvalid"];
+}
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<div class="text-left">
+    <h2 class="display-4 my-4">Edit Account</h2>
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
+}
+
+<form method="post" asp-action="Edit" asp-controller="UserAccount">
+    <div class="my-4">
+        <label for="FirstName" class="mb-2">Username</label>
+        @Html.TextBoxFor(m => m.username, new { @class = "form-control w-50" })
+    </div>
+
+    <div class="mt-2">
+        <label for="LastName" class="mb-2">Change Password?</label>
+        @Html.CheckBoxFor(m => m.isPasswordUpdate)
+    </div>
+
+    <div class="row" id="changePass">
+        <div class="col-md-3 my-4">
+            <label for="LastName" class="mb-2">Old Password</label>
+            @Html.PasswordFor(m => m.passwordUpdate, new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-3 my-4">
+            <label for="LastName" class="mb-2">New Password</label>
+            @Html.PasswordFor(m => m.password, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="mt-2 mb-4">
+        <label for="LastName" class="mb-2">Is Admin</label>
+        @Html.CheckBoxFor(m => m.isAdmin)
+    </div>
+
+    @Html.HiddenFor(m => m.oldPassword)
+
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#changePass').hide();
+
+        $("#isPasswordUpdate").change(function () {
+            if (this.checked) {
+                $('#changePass').show();
+            }
+            else 
+            {
+                $('#changePass').hide();
+            }
+        });
+    });
+
+
+</script>

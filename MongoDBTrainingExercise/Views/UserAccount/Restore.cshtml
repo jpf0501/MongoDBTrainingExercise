@@ -1,0 +1,42 @@
+﻿@model IEnumerable<MongoDBTrainingExercise.Models.ViewModels.UserAccountViewModel>;
+
+@{
+    ViewData["Title"] = "Restore User Accounts";
+}
+
+<div class="text-left">
+    <h2 class="display-4 my-4">Restore User Account</h2>
+</div>
+
+<div class="my-4">
+    <a href="@Url.Action("Index", "UserAccount")" class="btn btn-primary" role="button">Go Back</a>
+</div>
+
+<table class="table table-condensed mt-4">
+    <thead>
+        <tr>
+            <th></th>
+            <th>User Id</th>
+            <th>Username</th>
+        </tr>
+    </thead>
+        @foreach (var item in Model)
+        {
+                <tr>
+                    <td>
+                @using (Html.BeginForm("Restore", "UserAccount"))
+                        {
+                            <button class="btn btn-warning" name="id" value="@item.userId" type="submit">Restore</button>
+                        }
+                    </td>
+                    <td>
+                    @Html.DisplayFor(m => item.userId)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(m => item.username)
+                    </td>
+
+                </tr>
+        }
+    <tr>
+</table>
