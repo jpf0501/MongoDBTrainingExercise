@@ -8,6 +8,7 @@ builder.Services.AddSingleton<Students>();
 builder.Services.AddSingleton<Courses>();
 builder.Services.AddSingleton<Teachers>();
 builder.Services.AddSingleton<Categories>();
+builder.Services.AddSingleton<UserAccounts>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
