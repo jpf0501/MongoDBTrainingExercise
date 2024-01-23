@@ -6,7 +6,7 @@ using MongoDBTrainingExercise.Services;
 
 namespace MongoDBTrainingExercise.Controllers
 {
-    public class CourseController : Controller
+    public class CourseController : BaseController
     {
         private readonly Courses _courseService;
         private readonly Categories _categoryService;
