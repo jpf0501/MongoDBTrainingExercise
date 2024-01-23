@@ -95,19 +95,27 @@ namespace MongoDBTrainingExercise.Services
             var filter = Builders<UserAccount>.Filter.Eq(x => x.username, username) & Builders<UserAccount>.Filter.Eq(x => x.isActive, true);
             var result = _accountCollection.Find(filter).FirstOrDefault();
 
-            try
+            if (result != null)
             {
-                viewModel.Id = result.Id;
-                viewModel.userId = result.userId;
-                viewModel.username = result.username;
-                viewModel.isAdmin = result.isAdmin;
-                viewModel.password = result.password;
-                viewModel.isActive = result.isActive;
+                try
+                {
+                    viewModel.Id = result.Id;
+                    viewModel.userId = result.userId;
+                    viewModel.username = result.username;
+                    viewModel.isAdmin = result.isAdmin;
+                    viewModel.password = result.password;
+                    viewModel.isActive = result.isActive;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
-            catch (Exception e)
+            else
             {
-                Console.WriteLine(e.Message);
+                viewModel = null;
             }
+
 
             return viewModel;
         }

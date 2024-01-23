@@ -148,26 +148,34 @@ namespace MongoDBTrainingExercise.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Login(UserAccountViewModel viewModel)
         {
-            try
+            if (viewModel.username == null || viewModel.password == null) {
+                TempData["Prompt"] = "Field cannot be blank";
+                return RedirectToAction("Login", "UserAccount");
+            }
+            else
             {
-                var userObj = _accountService.GetByUsername(viewModel.username, viewModel.password);
-
-                if (userObj != null)
+                try
                 {
-                    HttpContext.Session.SetInt32(sessionUserId, userObj.userId);
+                    var userObj = _accountService.GetByUsername(viewModel.username, viewModel.password);
 
-                    return RedirectToAction("Index", "Home");
+                    if (userObj != null)
+                    {
+                        HttpContext.Session.SetInt32(sessionUserId, userObj.userId);
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        TempData["Prompt"] = "Username and/or password is incorrect";
+                        return RedirectToAction("Login", "UserAccount");
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    TempData["Prompt"] = "Incorrect credentials!";
-                    return RedirectToAction("Login", "UserAccount");
+                    Console.WriteLine(e);
                 }
             }
-            catch(Exception e)
-            {
-                Console.WriteLine(e);
-            }
+            
 
             return View();
         }

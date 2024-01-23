@@ -20,6 +20,11 @@
                 @Html.PasswordFor(m => m.password, new { @class = "form-control w-100" })
             </div>
 
+            @if (ViewBag.Message != null)
+            {
+                <p class="text-danger">@ViewBag.Message</p>
+            }
+
             <button type="submit" class="btn btn-success">Login</button>
         </form>
     </div>
