@@ -89,6 +89,29 @@ namespace MongoDBTrainingExercise.Services
             return viewModel;
         }
 
+        public UserAccountViewModel GetByUsername(string username, string password)
+        {
+            var viewModel = new UserAccountViewModel();
+            var filter = Builders<UserAccount>.Filter.Eq(x => x.username, username) & Builders<UserAccount>.Filter.Eq(x => x.isActive, true);
+            var result = _accountCollection.Find(filter).FirstOrDefault();
+
+            try
+            {
+                viewModel.Id = result.Id;
+                viewModel.userId = result.userId;
+                viewModel.username = result.username;
+                viewModel.isAdmin = result.isAdmin;
+                viewModel.password = result.password;
+                viewModel.isActive = result.isActive;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return viewModel;
+        }
+
         public bool Create(UserAccountViewModel viewModel)
         {
             try

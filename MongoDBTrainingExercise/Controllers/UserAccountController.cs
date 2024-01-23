@@ -6,7 +6,7 @@ using MongoDBTrainingExercise.Services;
 
 namespace MongoDBTrainingExercise.Controllers
 {
-    public class UserAccountController : Controller
+    public class UserAccountController : BaseController
     {
         private readonly UserAccounts _accountService;
 
@@ -21,11 +21,7 @@ namespace MongoDBTrainingExercise.Controllers
             return View(viewModel);
         }
 
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
+
 
         [HttpGet]
         public IActionResult Create()
@@ -140,6 +136,47 @@ namespace MongoDBTrainingExercise.Controllers
 
             //return View();
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Login(UserAccountViewModel viewModel)
+        {
+            try
+            {
+                var userObj = _accountService.GetByUsername(viewModel.username, viewModel.password);
+
+                if (userObj != null)
+                {
+                    HttpContext.Session.SetInt32(sessionUserId, userObj.userId);
+
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    TempData["Prompt"] = "Incorrect credentials!";
+                    return RedirectToAction("Login", "UserAccount");
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
+
+            return View();
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Login", "UserAccount");
         }
     }
 }

@@ -1,0 +1,29 @@
+﻿@model MongoDBTrainingExercise.Models.ViewModels.UserAccountViewModel;
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_Layout";
+    ViewBag.Message = TempData["Prompt"];
+}
+
+
+<div class="d-flex justify-content-center my-auto">
+    <div class="card card-block w-50">
+        <form method="post" asp-action="Login" asp-controller="UserAccount" class="m-5">
+            <div>
+                <label for="FirstName" class="mb-2">Username</label>
+                @Html.TextBoxFor(m => m.username, new { @class = "form-control w-100" })
+            </div>
+
+            <div class="my-4">
+                <label for="LastName" class="mb-2">Password</label>
+                @Html.PasswordFor(m => m.password, new { @class = "form-control w-100" })
+            </div>
+
+            <button type="submit" class="btn btn-success">Login</button>
+        </form>
+    </div>
+</div>
+
+
+

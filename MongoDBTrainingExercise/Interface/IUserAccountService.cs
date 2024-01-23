@@ -11,6 +11,7 @@ namespace MongoDBTrainingExercise.Interface
         IEnumerable<UserAccountViewModel> GetAllInactive();
 
         UserAccountViewModel GetById(int id);
+        UserAccountViewModel GetByUsername(string username, string password);
         bool Create(UserAccountViewModel viewModel);
         bool Update(UserAccountViewModel viewModel);
         bool Delete(UserAccountViewModel viewModel);
