@@ -8,6 +8,7 @@
 
         public string username { get; set; } = null!;
         public string password { get; set; } = null!;
+        public string passwordNew { get; set; } = null!;
         public string passwordUpdate { get; set; } = null!;
         public string oldPassword { get; set; } = null!;
 

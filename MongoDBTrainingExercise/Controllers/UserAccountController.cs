@@ -69,6 +69,11 @@ namespace MongoDBTrainingExercise.Controllers
             }
             else
             {
+                if(viewModel.passwordNew != null)
+                {
+                    viewModel.password = viewModel.passwordNew;
+                }
+
                 var teacher = _accountService.Update(viewModel);
 
                 if (teacher)
