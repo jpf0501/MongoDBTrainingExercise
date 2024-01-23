@@ -1,21 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDBTrainingExercise.Models;
+using MongoDBTrainingExercise.Services;
 using System.Diagnostics;
 
 namespace MongoDBTrainingExercise.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserAccounts _userAccountService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserAccounts userAccountService)
         {
             _logger = logger;
+            _userAccountService = userAccountService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var userId = HttpContext.Session.GetInt32(sessionUserId) ?? 0 ;
+            var viewModel = userId != 0 ? _userAccountService.GetById(userId) : null;
+
+
+            return View(viewModel);
+
+
+            
         }
 
         public IActionResult Privacy()
